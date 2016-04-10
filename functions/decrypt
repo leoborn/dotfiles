@@ -6,10 +6,10 @@ if [ $# == 0 ]; then
 fi
 
 if [[ -f "$1" ]]; then
-	echo Start decryption of file $1...
 	extension=`echo -n $1 | tail -c 5`
 	if [[ "$extension" == ".enc" ]]
 	then
+	        echo Start decryption of file $1...
 		bn=`basename "$1" .enc`
 		openssl enc -d -a -aes-256-cbc -in $1 > $bn
 		rm $1
