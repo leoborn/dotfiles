@@ -1,0 +1,32 @@
+#!/bin/sh
+
+if [ $# == 0 ]; then
+	echo "Usage: decrypt [file]"
+	exit 1
+fi
+
+if [[ -f "$1" ]]; then
+	echo Start decryption of file $1...
+	extension=`echo -n $1 | tail -c 5`
+	if [[ "$extension" == ".enc" ]]
+	then
+		bn=`basename "$1" .enc`
+		openssl enc -d -a -aes-256-cbc -in $1 > $bn
+		rm $1
+		fKind="file as"
+		fName="$bn"
+		if [[ $bn =~ .*tar\.gz ]]; then
+			DIR_NAME=`basename "$bn" .tar.gz`
+			tar -zxf $bn
+			rm $bn
+			fKind="archive as the directory"
+			fName="$DIR_NAME"
+		fi
+		echo ""
+		echo Succesfully decrypted $fKind $fName!
+	else
+		echo This is not a properly encrypted file!
+	fi
+else
+	echo You must pass a file as an argument! Can only decrypt filez!
+fi

@@ -1,0 +1,161 @@
+#!/bin/sh
+
+usage() {
+	echo "Usage: encrypt [-option] [file]"
+	echo
+    echo Options:
+    echo "    -a, --auto		Automatically encrypt the file with a random password."
+    echo "    -o, --own		Encrypt the file with a password of your own."
+    echo "    -r, --random	Encrypt the file by picking a random password from a table."
+    echo
+    echo "****************************************************************"
+	echo "NOTE: The randomly generated password will be displayed in order" 
+	echo "for you to copy it or write it down."
+	echo "In some situations this might be considered a security risk and"
+	echo "so the option -a or --auto should not be chosen!"
+	echo "****************************************************************"
+}
+
+generateRandomPWs() {
+	rpws[0]=`openssl rand -base64 12`
+	rpws[1]=`openssl rand -base64 12`
+	rpws[2]=`openssl rand -base64 12`
+	rpws[3]=`openssl rand -base64 12`
+	rpws[4]=`openssl rand -base64 12`
+	rpws[5]=`openssl rand -base64 12`
+	rpws[6]=`openssl rand -base64 12`
+	rpws[7]=`openssl rand -base64 12`
+	rpws[8]=`openssl rand -base64 12`
+}
+
+
+if [ $# == 0 ]; then
+    usage
+else
+	fKind=""
+	fTemp=""
+	fName=""
+	flag=""
+	if [ $# == 1 ] && [[ -f "$1" ]]; then
+		echo Start encryption of file $1...
+		fTemp=$1
+		fName=`basename $1`
+		fKind="file"
+		sleep 0.5
+		
+	elif [ $# == 1 ] && [[ -d "$1" ]]; then
+		echo Start encryption of directory $1
+		echo "Directory will be archived as a tar.gz for encryption!"
+		DIR_NAME=`basename $1`
+		tar -zcf $DIR_NAME.tar.gz $1
+		echo "Directory archived as $DIR_NAME.tar.gz!"
+		rm -rf $1
+		echo "Directory removed!"
+		fTemp=$DIR_NAME.tar.gz
+		fName=$DIR_NAME.tar.gz
+		fKind="archive"
+		sleep 0.5
+		
+	elif ([ $# == 2 ] && [[ -f "$2" ]]) || ([ $# == 2 ] && [[ -d "$2" ]]); then
+		if [[ "$1" == "-a" ]] || [[ "$1" == "--auto" ]]; then
+			flag="-a"
+		elif [[ "$1" == "-o" ]] || [[ "$1" == "--own" ]]; then
+			flag="-o"
+		elif [[ "$1" == "-r" ]] || [[ "$1" == "--random" ]]; then
+			flag="-r"
+		else
+			echo "Not recognized!"
+			usage
+			exit 1
+		fi
+		
+		if [[ -f "$2" ]]; then
+			echo Start encryption of file $2...
+			fTemp=$2
+			fName=`basename $2`
+			fKind="file"
+			sleep 0.5
+			
+		elif [[ -d "$2" ]]; then
+			echo Start encryption of directory $2
+			echo "Directory will be archived as a tar.gz for encryption!"
+			DIR_NAME=`basename $2`
+			tar -zcf $DIR_NAME.tar.gz $2
+			echo "Directory archived as $DIR_NAME.tar.gz!"
+			rm -rf $2
+			echo "Directory removed!"
+			fTemp=$DIR_NAME.tar.gz
+			fName=$DIR_NAME.tar.gz
+			fKind="archive"
+			sleep 0.5
+			
+		fi
+	else
+		echo "Not recognized!"
+		usage
+		exit 1
+	fi
+	if [[ "$flag" == "" ]]; then
+		echo ""
+		echo "Do you want to encrypt the $fKind [A]utomatically with a random password,"
+		echo "with your [O]wn password, or by picking a [R]andomly generated password from a table?"
+		echo ""
+		echo "*****************************************************************"
+		echo "NOTE: The automatic encryption will display the password in order" 
+		echo "for you to copy it or write it down."
+		echo "In some situations this might be considered a security risk and"
+		echo "so the option [A]utomatic should not be chosen!"
+		echo "*****************************************************************"
+		sleep 2
+		
+		echo ""
+		while true; do
+    		read -p "Which password do you want to use? [A]utomatic/[O]wn/[R]andom: " pw
+    		case $pw in
+        		[Aa]* ) flag="-a"; break;;
+        		[Oo]* ) flag="-o"; break;;
+        		[Rr]* ) flag="-r"; break;;
+        	* ) echo "Please answer [A]utomatic, [O]wn or [R]andom.";;
+    		esac
+		done
+	fi
+	
+	if [[ "$flag" == "-a" ]]; then
+		randomPW=`openssl rand -base64 12`
+		echo "The random password for the $fKind is: $randomPW"
+		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc -k $randomPW
+		rm $fTemp
+	elif [[ "$flag" == "-o" ]]; then
+		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc
+		rm $fTemp
+	else
+		generateRandomPWs
+		echo "You can choose one of the following nine random passwords:"
+		echo
+		echo ${rpws[0]}$'\t'${rpws[1]}$'\t'${rpws[2]}
+		echo ${rpws[3]}$'\t'${rpws[4]}$'\t'${rpws[5]}
+		echo ${rpws[6]}$'\t'${rpws[7]}$'\t'${rpws[8]}
+		echo ""
+		sleep 2
+		finalPW=""
+		while true; do
+    		read -p "Which password do you want to use? " -s pw
+    		case $pw in
+        		${rpws[0]} ) finalPW=${rpws[0]}; break;;
+        		${rpws[1]} ) finalPW=${rpws[1]}; break;;
+        		${rpws[2]} ) finalPW=${rpws[2]}; break;;
+        		${rpws[3]} ) finalPW=${rpws[3]}; break;;
+        		${rpws[4]} ) finalPW=${rpws[4]}; break;;
+        		${rpws[5]} ) finalPW=${rpws[5]}; break;;
+        		${rpws[6]} ) finalPW=${rpws[6]}; break;;
+        		${rpws[7]} ) finalPW=${rpws[7]}; break;;
+        		${rpws[8]} ) finalPW=${rpws[8]}; break;;
+        	* ) echo $'\nPlease input one of the above passwords.';;
+    		esac
+		done
+		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc -k $finalPW
+		rm $fTemp
+	fi
+	echo
+	echo "Succesfully encrypted $fKind as $fName.enc!"
+fi
