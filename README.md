@@ -6,17 +6,13 @@ These are my personal dotfile(s) and some (more or less) useful scripts I wrote.
 
 * just messin' around with dotfiles
 * easy command-line-based encryption and decryption of files and directories
+* more coming...
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* homebrew or MacPorts on Mac, or package installer of your Linux distro
+* The encrypt and decrypt functions are basically wrapper around _openssl_, so they should be useable out-of-the-box on your machines!
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Mumon
