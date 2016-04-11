@@ -67,9 +67,9 @@ sdmount(){
 }
 
 sdunmount(){
-	mountStatus=`ismounted sd`
-	if [[ "$mountStatus" == "true" ]]; then
-		umount -f /Volumes/Leo\ Born\ HD\ Extension/Data; rm -rf /Volumes/Leo\ Born\ HD\ Extension/Data
+	if [[ $(ismounted sd) == "true" ]]; then
+		umount -f /Volumes/Leo\ Born\ HD\ Extension/Data
+		rm -rf /Volumes/Leo\ Born\ HD\ Extension/Data
 	else
 		echo "SD-Data currently not mounted!" | redOutput
 	fi
@@ -78,7 +78,7 @@ sdunmount(){
 ntfsmount(){
 	if mount | grep osxfuse > /dev/null; then
     	echo $'Another OSXFUSE volume is already mounted!\nUnmount it first!' | redOutput
-	elif [[ "`diskutil list | grep 0x86`" == "" ]]
+	elif [[ $(diskutil list | grep 0x86) == "" ]]
 	then
 		echo "No NTFS volume detected! Attach/connect one first!" | redOutput
 	else
@@ -96,8 +96,7 @@ ntfsmount(){
 
 #find ~/Desktop/ -type f -name '*ntfs-3g*' -exec rm {} +;
 ntfsunmount(){
-	mountStatus=`ismounted ntfs`
-	if [[ "$mountStatus" == "true" ]]; then
+	if [[ $(ismounted ntfs) == "true" ]]; then
 		echo "NOTE: May prompt for admin password."
 		sudo umount /Volumes/NTFS
 		sudo rm -rf /Volumes/NTFS
@@ -120,7 +119,7 @@ alias svpn=vpnstatus
 spmount(){
 	echo "Start connecting to sharepoint..."
 	echo
-	vpnStatus=`/opt/cisco/anyconnect/bin/vpn state | grep state | tail -n1 | cut -d' ' -f5`
+	vpnStatus=`vpnstatus | grep state | tail -n1 | cut -d' ' -f5`
 	if [[ "$vpnStatus" == "Disconnected" ]]
 	then
 		echo "VPN to university is not established!" | lolcat
@@ -130,13 +129,12 @@ spmount(){
 	fi
 	echo "Now we're mounting!"
 	osascript -e 'tell application "Finder" to open location "smb://leo.born:bVx83.f9@zo-puck.zo.uni-heidelberg.de/Proj-Literaturgeographie"'
-	sleep 10
+	sleep 20
 	echo "Mounted at /Volumes/Proj-Literaturgeographie" | lolcat -a
 }
 
 spunmount(){
-	mountStatus=`ismounted sp`
-	if [[ "$mountStatus" == "true" ]]; then
+	if [[ $(ismounted sp) == "true" ]]; then
 		umount /Volumes/Proj-Literaturgeographie
 		echo "SharePoint drive successfully unmounted!" | lolcat
 	else
@@ -175,7 +173,6 @@ function ismounted(){
     	echo "Not recognized!" | redOutput
 	fi
 }
-
 
 alias getexternalip='curl ipecho.net/plain ; echo'
 alias getlocalip='ipconfig getifaddr en1'
