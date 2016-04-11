@@ -32,6 +32,10 @@ alias hiwi='cd ~/Desktop/Privat/Uni/HiWi'
 alias sd='cd /Volumes/Leo\ Born\ HD\ Extension/'
 alias g='cd ~/Documents/git'
 
+alias ga='git add'
+alias gcm='git commit -m'
+alias gpu='git push -u'
+
 # Enable aliases to be sudo'ed
 alias sudo='sudo '
 
@@ -225,7 +229,7 @@ wifiquality(){
      	elif [[ $_linkQual -lt 76 ]] # 25~50% link qual
      	then
        		_linkSparked=$(spark 1 0 0 0)
-     	else # < 10%
+     	else # < 25%
        		_linkSparked=$(spark 0 0 0 0)
      	fi
 
