@@ -247,7 +247,7 @@ sysinf(){
 	fi
 	echo
 	echo "RAM status (detailed):"
-	used-mem 'Free: #.2f % (#.3F GB) | Used: #.2u % (#.3U GB) | Total: #.3T GB' | lolcat
+	python /usr/local/bin/used-mem.py all | lolcat
 }
 
 bublog(){
