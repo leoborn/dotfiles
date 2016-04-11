@@ -27,6 +27,7 @@ alias .3='cd ../..'
 alias .4='cd ../../..'
 alias hiwi='cd ~/Desktop/Privat/Uni/HiWi'
 alias sd='cd /Volumes/Leo\ Born\ HD\ Extension/'
+alias g='cd ~/Documents/git'
 
 # Enable aliases to be sudo'ed
 alias sudo='sudo '
@@ -257,12 +258,15 @@ bublog(){
 	if [[ "$mountStatus" == "false" ]]; then
 		sdmount
 	fi
-	# check wget flag -N to skip files that are unchanged
-	wget -r --no-verbose --show-progress --user="k5499-1" --password="^KCzA7pd#3kPQRPrpRnF" ftp://server.febas.net/htdocs/ -P /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/
-	#wget -r --user="k5499-1" --password="^KCzA7pd#3kPQRPrpRnF" ftp://server.febas.net/htdocs/ -P /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/
-	#wget -r ftp://k5499-1@server.febas.net/htdocs/ -P /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/
-	#ndate=`date -j +"%d_%m_%y"`
-	#mv htdocs Aktuelles_WP-BU_$ndate
+	
+	cd /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/
+	oldname=`ls | grep Aktuelles_WP-BU`
+	
+	# wget flag -N to skip files that are unchanged
+	wget -r --no-verbose --show-progress -N --user="k5499-1" --ask-password ftp://server.febas.net/htdocs/ -P /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/$oldname
+	
+	newdate=`date -j +"%d_%m_%y"`
+	mv /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/$oldname /Volumes/Leo\ Born\ HD\ Extension/Data/Blogs/LI/Aktuelles_WP-BU_$newdate
 }
 
 
