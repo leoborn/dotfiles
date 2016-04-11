@@ -2,10 +2,13 @@
 # the others do not and just do things more complicated than a one-liner.
 
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py)):\[\033[33;1m\]\w\[\033[m\]\n\$ "
-#export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]\$(python /usr/local/bin/used-mem.py):\[\033[33;1m\]\w\[\033[m\]\n\$ "
-#export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]\$(used-mem 'Ⓜ #.1u%'):\[\033[33;1m\]\w\[\033[m\]\n\$ "
 export CLICOLOR=1
 export LSCOLORS=GxFxBxDxCxegedabagacad
+
+export HISTSIZE=100000
+export HISTFILESIZE=100000
+shopt -s histappend
+export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 
 # Use this to output any error-related text to stdout
