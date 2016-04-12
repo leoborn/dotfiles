@@ -37,7 +37,8 @@ alias grao='git remote add origin'
 alias ga='git add'
 alias gcm='git commit -m'
 alias gp='git push'
-alias gpu='git push -u' ## ONLY NEEDED FOR FIRST PUSH OF A BRANCH!
+alias gpsu='git push --set-upstream' ## ONLY NEEDED FOR FIRST PUSH OF A BRANCH!
+alias gpu='git pull'
 alias gst='git status'
 
 # Call from a local repo to open the repository on github/bitbucket in browser
