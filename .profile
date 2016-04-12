@@ -32,9 +32,12 @@ alias hiwi='cd ~/Desktop/Privat/Uni/HiWi'
 alias sd='cd /Volumes/Leo\ Born\ HD\ Extension/'
 alias g='cd ~/Documents/git'
 
+alias gi='git init'
+alias grao='git remote add origin'
 alias ga='git add'
 alias gcm='git commit -m'
 alias gpu='git push -u'
+alias gst='git status'
 
 # Enable aliases to be sudo'ed
 alias sudo='sudo '
