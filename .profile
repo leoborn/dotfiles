@@ -59,7 +59,7 @@ function psax() {
 
 alias ctop='top -o cpu'
 alias rtop='top -o MEM'
-alias cwd='pwd | tr -d "\r\n" | pbcopy'
+alias cwd='pwd | tr -d "\r\n" | pbcopy | echo "==> \"`pwd`\" copied to clipboard"'
 alias rrm='rm -rf'
 alias cpv='rsync -WavP --human-readable --progress'
 alias grep='grep --color=auto'
