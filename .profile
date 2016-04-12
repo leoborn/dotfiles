@@ -39,6 +39,33 @@ alias gcm='git commit -m'
 alias gpu='git push -u'
 alias gst='git status'
 
+# Call from a local repo to open the repository on github/bitbucket in browser
+# from https://github.com/jfrazelle/dotfiles/blob/master/.functions
+orepo() {
+	# this one currently works with BitBucket, not tested for GitHub yet! 
+	local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g' | sed 's/\/\/.*@//g')
+	
+	#local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
+	if [[ $giturl == "" ]]; then
+		echo "Not a git repository or no remote.origin.url is set."
+	else
+		local gitbranch=$(git rev-parse --abbrev-ref HEAD)
+		local giturl="https:${giturl}"
+
+		if [[ $gitbranch != "master" ]]; then
+			if echo "${giturl}" | grep -i "bitbucket" > /dev/null ; then
+				local giturl="${giturl}/branch/${gitbranch}"
+                    	else
+                    		local giturl="${giturl}/tree/${gitbranch}"
+                    	fi
+		fi
+
+		echo Open $giturl
+		open $giturl
+	fi
+}
+
+
 # Enable aliases to be sudo'ed
 alias sudo='sudo '
 
@@ -67,6 +94,12 @@ alias ls='ls -FG'
 alias lsf='ls -flhFG'
 alias lsl='ls -lFG'
 alias countfiles='ls -1 . | wc -l'
+
+# Use Mac OSX Preview to open a man page
+# from https://github.com/atomantic/dotfiles/blob/master/.shellfn
+function manp() {
+  man -t $1 | open -f -a /Applications/Preview.app
+}
 
 alias update='echo Updating Homebrew... | lolcat -a; brew update; brew upgrade; echo ; echo Updating MacPorts... | lolcat -a; sudo port selfupdate; port outdated; sudo port upgrade outdated'
 
