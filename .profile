@@ -51,6 +51,12 @@ alias veracrypt='open -a "VeraCrypt"'
 alias yoink='open -a "Yoink"'
 alias finder='open .'
 
+# ps with grep
+# from http://hiltmon.com/blog/2013/07/30/quick-process-search/
+function psax() {
+    ps auxwww | grep "$@"  | grep -v grep
+}
+
 alias ctop='top -o cpu'
 alias rtop='top -o MEM'
 alias cwd='pwd | tr -d "\r\n" | pbcopy'
