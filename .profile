@@ -36,7 +36,8 @@ alias gi='git init'
 alias grao='git remote add origin'
 alias ga='git add'
 alias gcm='git commit -m'
-alias gpu='git push -u'
+alias gp='git push'
+alias gpu='git push -u' ## ONLY NEEDED FOR FIRST PUSH OF A BRANCH!
 alias gst='git status'
 
 # Call from a local repo to open the repository on github/bitbucket in browser
@@ -97,7 +98,7 @@ alias countfiles='ls -1 . | wc -l'
 
 # Use Mac OSX Preview to open a man page
 # from https://github.com/atomantic/dotfiles/blob/master/.shellfn
-function manp() {
+function pman() {
   man -t $1 | open -f -a /Applications/Preview.app
 }
 
