@@ -54,12 +54,11 @@ prompt_git() {
 
 violet="\e[1;35m"
 white="\e[1;37m"
-blue="\e[1;34m";
 resetC="\e[0m";
 
 PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py))"
 PS1+=":\[\033[33;1m\]\w\[\033[m\]"
-PS1+="\$(prompt_git \"\[${white}\] on \[${violet}\]\" \"\[${blue}\]\")"
+PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
 PS1+="\[${resetC}\]\n\$ "
 export PS1
 export CLICOLOR=1
