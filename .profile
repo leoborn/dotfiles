@@ -1,6 +1,21 @@
 # functions declared as 'function' take an argument,
 # the others do not and just do things more complicated than a one-liner.
 
+# from https://github.com/s10wen/dotfiles/blob/master/.bash_prompt
+function git_info() {
+    # check if we're in a git repo
+    git rev-parse --is-inside-work-tree &>/dev/null || return
+
+    # quickest check for what branch we're on
+    branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+
+    # check if it's dirty (via github.com/sindresorhus/pure)
+    dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+
+    branchNameAndStatus="$branch$dirty"
+    echo -e "${1}${branchNameAndStatus}"
+}
+
 # from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
 prompt_git() {
 	# Check if the current directory is in a Git repository.
@@ -61,7 +76,10 @@ resetC="\e[0m";
 
 PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py))"
 PS1+=":\[\033[33;1m\]\w\[\033[m\]"
-PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
+#PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
+
+## TRY shorter git prompt for a while...
+PS1+="\$(git_info \" on \[${violet}\]\")"
 PS1+="\[${resetC}\]\n\$ "
 export PS1
 export CLICOLOR=1
