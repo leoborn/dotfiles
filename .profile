@@ -176,6 +176,8 @@ function psax() {
     ps auxwww | grep "$@"  | grep -v grep
 }
 
+alias diskreport='df -P -kHl'
+
 alias ctop='top -o cpu'
 alias rtop='top -o MEM'
 alias cwd='pwd | tr -d "\r\n" | pbcopy | echo "==> \"`pwd`\" copied to clipboard"'
@@ -356,15 +358,15 @@ wifiquality(){
        		_linkSparked=$(spark 1 2 3 4)
      	elif [[ $_linkQual -lt 26 ]] # 75~90% link qual
      	then
-       		_linkSparked=$(spark 1 2 3 0)
+       		_linkSparked=$(spark 1 2 3 0 4| cut -d'█' -f1)
      	elif [[ $_linkQual -lt 51 ]] # 50~75% link qual
      	then
-       		_linkSparked=$(spark 1 2 0 0)
+       		_linkSparked=$(spark 1 2 0 0 4 | cut -d'█' -f1)
      	elif [[ $_linkQual -lt 76 ]] # 25~50% link qual
      	then
-       		_linkSparked=$(spark 1 0 0 0)
+       		_linkSparked=$(spark 1 0 0 0 4 | cut -d'█' -f1)
      	else # < 25%
-       		_linkSparked=$(spark 0 0 0 0)
+       		_linkSparked=$(spark 0 0 0 0 4 | cut -d'█' -f1)
      	fi
 
 	 	percentage=`calc "$_linkQual"/100`
@@ -373,7 +375,11 @@ wifiquality(){
 	 	temp3="${temp2/,/"."}"
 	 	result=`calc "$temp3"*100`
 
-     	echo $_linkSparked $result% | lolcat
+		if [[ "$1" == "-nocat" ]]; then
+     		echo $_linkSparked $result%
+     	else
+     		echo $_linkSparked $result% | lolcat
+     	fi
 	fi
 }
 
@@ -383,12 +389,15 @@ sysinf(){
 	if [[ "$wifistatus" == "active" ]]
 	then
 		echo
-		echo "Wi-Fi quality:"
-		wifiquality
+		echo "Wi-Fi quality:" | lolcat
+		wifiquality -nocat
 	fi
 	echo
-	echo "RAM status (detailed):"
-	python /usr/local/bin/used-mem.py all | lolcat
+	echo "RAM status (detailed):" | lolcat
+	python /usr/local/bin/used-mem.py all #| lolcat
+	echo
+	echo "Disk status (detailed):" | lolcat
+	diskreport #| lolcat
 }
 
 bublog(){
