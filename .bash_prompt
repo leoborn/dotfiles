@@ -1,5 +1,5 @@
 # adapted from https://github.com/s10wen/dotfiles/blob/master/.bash_prompt
-function git_info() {
+git_info() {
     # check if we're in a git repo
     git rev-parse --is-inside-work-tree &>/dev/null || return
 
@@ -16,7 +16,7 @@ function git_info() {
 }
 
 # adapted from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
-prompt_git() {
+git_prompt() {
 	# Check if the current directory is in a Git repository.
 	git rev-parse --is-inside-work-tree &>/dev/null || return
 	
@@ -54,7 +54,7 @@ resetC="\e[0m";
 freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
 PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py), Ⓓ \$freeDisk)"
 PS1+=":\[\033[33;1m\]\w\[\033[m\]"
-#PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
+#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
 
 PS1+="\$(git_info \" on \[${violet}\]\")"	## Not as informative, but faster
 PS1+="\[${resetC}\]\n\$ "
