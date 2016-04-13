@@ -1,7 +1,67 @@
 # functions declared as 'function' take an argument,
 # the others do not and just do things more complicated than a one-liner.
 
-export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py)):\[\033[33;1m\]\w\[\033[m\]\n\$ "
+# from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
+prompt_git() {
+	local s='';
+	local branchName=''
+
+	# check if the current directory is in .git before running git checks
+	if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+		# Ensure the index is up to date.
+		git update-index --really-refresh -q &>/dev/null;
+
+		# Check for uncommitted changes in the index.
+		if ! $(git diff --quiet --ignore-submodules --cached); then
+				s+='+';
+		fi;
+
+		# Check for unstaged changes.
+		if ! $(git diff-files --quiet --ignore-submodules --); then
+			s+='!';
+		fi;
+
+		# Check for untracked files.
+		if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+			s+='?';
+		fi;
+
+		# Check for stashed files.
+		if $(git rev-parse --verify refs/stash &>/dev/null); then
+			s+='$';
+		fi;
+
+	fi;
+	
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+			git rev-parse --short HEAD 2> /dev/null || \
+			echo '(unknown)')"
+
+		[ -n "${s}" ] && s=" [${s}]"
+		
+		echo -e "${1}${branchName}${2}${s}"
+	else
+		return
+	fi
+}
+
+violet="\e[1;35m"
+white="\e[1;37m"
+blue="\e[1;34m";
+resetC="\e[0m";
+
+PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py))"
+PS1+=":\[\033[33;1m\]\w\[\033[m\]"
+PS1+="\$(prompt_git \"\[${white}\] on \[${violet}\]\" \"\[${blue}\]\")"
+PS1+="\[${resetC}\]\n\$ "
+export PS1
 export CLICOLOR=1
 export LSCOLORS=GxFxBxDxCxegedabagacad
 
@@ -40,6 +100,12 @@ alias gp='git push'
 alias gpsu='git push --set-upstream' ## ONLY NEEDED FOR FIRST PUSH OF A BRANCH!
 alias gpu='git pull'
 alias gst='git status'
+
+# Display commit history over the day of leoborn
+# from https://github.com/holman/spark/wiki/Wicked-Cool-Usage
+ghd(){
+	git log --pretty=format:'%an: %at' --author="leoborn" | awk '{system("date -r "$NF" '+%H'")}' | sort | uniq -c | ruby -e 'puts STDIN.readlines.inject(Hash[Array("00".."23").map{|x| [x,0]}]) {|h, x| h.merge(Hash[*x.split(" ").reverse])}.sort.map(&:last)' | spark | lolcat
+}
 
 # Call from a local repo to open the repository on github/bitbucket in browser
 # from https://github.com/jfrazelle/dotfiles/blob/master/.functions
