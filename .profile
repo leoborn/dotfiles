@@ -1,80 +1,51 @@
 # functions declared as 'function' take an argument,
 # the others do not and just do things more complicated than a one-liner.
 
-# from https://github.com/s10wen/dotfiles/blob/master/.bash_prompt
+# adapted from https://github.com/s10wen/dotfiles/blob/master/.bash_prompt
 function git_info() {
     # check if we're in a git repo
     git rev-parse --is-inside-work-tree &>/dev/null || return
 
     # quickest check for what branch we're on
-    #branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+    branchName=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
 
     # check if it's dirty (via github.com/sindresorhus/pure)
-    #dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+    dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ] && echo -e "*")
 
-    #branchNameAndStatus="$branch$dirty"
-    #echo -e "${1}${branchNameAndStatus}"
-    
-    
-    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-            git describe --all --exact-match HEAD 2> /dev/null || \
-            git rev-parse --short HEAD 2> /dev/null || \
-            echo '(unknown)')";
-    echo -e "${1}${branchName}"
+    branchNameAndStatus="$branchName$dirty"
+    echo -e "${1}${branchNameAndStatus}"
+            
+    #echo -e "${1}${branchName}"
 }
 
-# from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
+# adapted from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
 prompt_git() {
 	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-		local s=''
-		local branchName=''
-		
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null
-
-			# Check for uncommitted changes in the index.
-			if ! $(git diff --quiet --ignore-submodules --cached); then
-					s+='+'
-			fi;
-
-			# Check for unstaged changes.
-			if ! $(git diff-files --quiet --ignore-submodules --); then
-				s+='!'
-			fi;
-
-			# Check for untracked files.
-			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-				s+='?'
-			fi;
-
-			# Check for stashed files.
-			if $(git rev-parse --verify refs/stash &>/dev/null); then
-				s+='$'
-			fi;
-
-		fi;
+	git rev-parse --is-inside-work-tree &>/dev/null || return
 	
-		# Check if the current directory is in a Git repository.
-		if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-
-			# Get the short symbolic ref.
-			# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-			# Otherwise, just give up.
-			branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-				git rev-parse --short HEAD 2> /dev/null || \
-				echo '(unknown)')"
-
-			[ -n "${s}" ] && s=" [${s}]"
+	local s=''
+	local branchName=''
 		
-			echo -e "${1}${branchName}${2}${s}"
+	# check if the current directory is in .git before running git checks
+	if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+		# Ensure the index is up to date.
+		git update-index --really-refresh -q &>/dev/null
+
+		# Check for uncommitted changes in the index.
+		if ! $(git diff --quiet --ignore-submodules --cached); then
+			s+='+'
 		fi
-	else
-		return
+
+		# Check for unstaged changes.
+		if ! $(git diff-files --quiet --ignore-submodules --); then
+			s+='!'
+		fi
 	fi
+	
+	branchName=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+		
+	echo -e "${1}${branchName}${2}${s}"
 }
 
 violet="\e[1;35m"
@@ -88,10 +59,10 @@ PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$
 PS1+=":\[\033[33;1m\]\w\[\033[m\]"
 #PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
 
-## TRY shorter git prompt for a while...
-PS1+="\$(git_info \" on \[${violet}\]\")"
+PS1+="\$(git_info \" on \[${violet}\]\")"	## Not as informative, but faster
 PS1+="\[${resetC}\]\n\$ "
 export PS1
+
 export CLICOLOR=1
 export LSCOLORS=GxFxBxDxCxegedabagacad
 
