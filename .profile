@@ -7,13 +7,20 @@ function git_info() {
     git rev-parse --is-inside-work-tree &>/dev/null || return
 
     # quickest check for what branch we're on
-    branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+    #branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
 
     # check if it's dirty (via github.com/sindresorhus/pure)
-    dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+    #dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
 
-    branchNameAndStatus="$branch$dirty"
-    echo -e "${1}${branchNameAndStatus}"
+    #branchNameAndStatus="$branch$dirty"
+    #echo -e "${1}${branchNameAndStatus}"
+    
+    
+    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+            git describe --all --exact-match HEAD 2> /dev/null || \
+            git rev-parse --short HEAD 2> /dev/null || \
+            echo '(unknown)')";
+    echo -e "${1}${branchName}"
 }
 
 # from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
