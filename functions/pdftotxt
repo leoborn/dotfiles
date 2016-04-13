@@ -3,7 +3,7 @@
 START=`date +%s`
 
 if [ "$#" -ne 2 ]; then
-    echo "Usage: pdftotxt [language-extension] [file]"
+    echo "Usage: pdftotxt [language-extension] file"
     exit 1
 fi
 
