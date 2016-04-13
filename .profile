@@ -74,7 +74,10 @@ violet="\e[1;35m"
 white="\e[1;37m"
 resetC="\e[0m";
 
-PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py))"
+#PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py))"
+
+freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
+PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py), Ⓓ \$freeDisk)"
 PS1+=":\[\033[33;1m\]\w\[\033[m\]"
 #PS1+="\$(prompt_git \" on \[${violet}\]\" \"\[${white}\]\")"
 
