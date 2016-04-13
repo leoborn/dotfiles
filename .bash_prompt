@@ -50,13 +50,6 @@ white="\e[1;37m"
 resetC="\e[0m"
 
 freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
-#PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\](\$(date -j +'%H:%M'), \$(python /usr/local/bin/used-mem.py), Ⓓ \$freeDisk)"
-#PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
-#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
-#PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]\n"	## Not as informative, but faster
-#PS1L+="\$ "
-#export PS1
-
 PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
 PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 #PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
@@ -73,7 +66,6 @@ prompt() {
 	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1L")
 	PS1+="\n\$ "
 }
-#export PS1
 PROMPT_COMMAND=prompt
 
 export CLICOLOR=1
