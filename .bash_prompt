@@ -67,7 +67,7 @@ prompt() {
 		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
 	}
 	PS1R="$(battery_charge)"
-	
+
 	compensate=32
 	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1L")
 	PS1+="\n\$ "
