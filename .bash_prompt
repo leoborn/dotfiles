@@ -49,12 +49,6 @@ violet="\e[1;35m"
 white="\e[1;37m"
 resetC="\e[0m"
 
-freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
-PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
-PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
-#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
-PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
-
 export CLICOLOR=1
 export LSCOLORS=GxFxBxDxCxegedabagacad
 
@@ -67,6 +61,12 @@ _batt_prompt() {
 		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
 	}
 	PS1R="$(_battery_charge)"
+	
+	freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
+	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
+	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
+	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
+	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
 	PS1LFINAL="\[\033[31m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
 	
 	compensate=32
@@ -75,6 +75,11 @@ _batt_prompt() {
 }
 
 _nobatt_prompt() {
+	freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
+	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
+	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
+	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
+	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
 	PS1LFINAL="\[\033[31m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
 	PS1="$PS1LFINAL"
 	PS1+="\n\$ "
