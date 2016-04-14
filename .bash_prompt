@@ -62,7 +62,7 @@ export HISTSIZE=100000
 export HISTFILESIZE=100000
 shopt -s histappend
 
-prompt() {
+batt_prompt() {
 	battery_charge() {
 		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
 	}
@@ -72,6 +72,14 @@ prompt() {
 	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1L")
 	PS1+="\n\$ "
 }
-PROMPT_COMMAND=prompt
 
-export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+nobatt_prompt() {
+	PS1="$PS1L"
+	PS1+="\\n\$ "
+}
+
+if [[ "$SHOW_BATTERY" == "TRUE" ]]; then
+	export PROMPT_COMMAND="history -a;history -c;history -r;batt_prompt"
+else
+	export PROMPT_COMMAND="history -a;history -c;history -r;nobatt_prompt"
+fi
