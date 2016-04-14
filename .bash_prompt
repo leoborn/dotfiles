@@ -55,24 +55,23 @@ PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 #PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
 PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
 
-
-battery_charge() {
-	echo `/usr/local/bin/battery-charge.py` 2>/dev/null
-}
-PS1R="$(battery_charge)"
-
-prompt() {
-	compensate=32
-	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1L")
-	PS1+="\n\$ "
-}
-PROMPT_COMMAND=prompt
-
 export CLICOLOR=1
 export LSCOLORS=GxFxBxDxCxegedabagacad
 
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 shopt -s histappend
+
+prompt() {
+	battery_charge() {
+		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
+	}
+	PS1R="$(battery_charge)"
+	
+	compensate=32
+	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1L")
+	PS1+="\n\$ "
+}
+PROMPT_COMMAND=prompt
 
 export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
