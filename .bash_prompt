@@ -62,8 +62,10 @@ _batt_prompt() {
 	}
 	PS1R="$(_battery_charge)"
 	
-	freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
-	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
+	#usedDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
+	#PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $usedDisk)"
+	
+	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
 	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
@@ -75,8 +77,10 @@ _batt_prompt() {
 }
 
 _nobatt_prompt() {
-	freeDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
-	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $freeDisk)"
+	#usedDisk=`[[ "$(df -P -kHl | head -2 | tail -1)" =~ [[:space:]]*([0-9]+%) ]] && echo ${BASH_REMATCH[1]}`
+	#PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py), Ⓓ $usedDisk)"
+	
+	PS1L="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
 	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
