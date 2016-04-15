@@ -9,7 +9,7 @@ fi
 
 lang=$1
 y="`pwd`/$2"
-echo Will create a OCRed text file for $y
+echo Will create an OCRed text file for $y
 
 x=`basename "$y"`
 name=${x%.*}
@@ -38,3 +38,5 @@ END=`date +%s`
 DUR=$(($END-$START))
 TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
 echo ; echo "### OCR took $TIME ###"
+
+terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftotxt"

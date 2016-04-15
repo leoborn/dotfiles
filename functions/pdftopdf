@@ -38,3 +38,5 @@ END=`date +%s`
 DUR=$(($END-$START))
 TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
 echo ; echo "### OCR took $TIME ###"
+
+terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftopdf"
