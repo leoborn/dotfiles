@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # coding=utf8
 
+# Adapted from http://apple.stackexchange.com/questions/4286/is-there-a-mac-os-x-terminal-version-of-the-free-command-in-linux-systems
+
 import sys
 import subprocess
 import re
@@ -34,10 +36,6 @@ for row in range(1,len(vmLines)-2):
 if len(sys.argv) == 1:
 	print 'Ⓜ %.1f% %' % ( (float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/16000.0)*100 ))
 elif sys.argv[1] == "all":
-	#print 'Free: %.1f% % (%.1f GB)' % ( 100.0 - (float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/16000.0)*100 ), 16.0 - float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/1000.0) )
-	#print 'Used: %.1f% % (%.1f GB)' % ( (float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/16000.0)*100 ),  float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/1000.0) )
-	#print 'Total: 16.0 GB'
-	
 	# Output (example):
 	# Free: 49.0 % (7.8 GB) | Used: 50.9 % (8.1 GB) | Total: 16.0 GB
 	print 'Free: %.1f% % (%.1f GB) | Used: %.1f% % (%.1f GB) | Total: 16.0 GB' % ( 100.0 - (float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/16000.0)*100 ), 16.0 - float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/1000.0), (float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/16000.0)*100 ), float(((vmStats["Pages active"]/1024/1024)+(vmStats["Pages wired down"]/1024/1024))/1000.0)  )
