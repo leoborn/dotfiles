@@ -1,15 +1,34 @@
 #!/bin/sh
 
 # ATM only a simple wrapper around mdfind
-# Add flag -name before query
 if [ $# == 0 ]; then
 	echo "Usage: search query (in [directory])"
 	echo
-elif [ $# == 1 ]; then
-	mdfind $1
-elif [ $# == 3 ] && [[ "$2" == "in" ]]; then
-	mdfind -onlyin $3 $1
+	exit 1
+fi
+
+name="FALSE"
+if [[ "$1" == "-name" ]]; then
+	name="TRUE"
+	shift 1
+fi	
+
+if [[ "$name" == "TRUE" ]]; then
+	if [ $# == 1 ]; then
+		mdfind -name $1
+	elif [ $# == 3 ] && [[ "$2" == "in" ]]; then
+		mdfind -onlyin $3 -name $1
+	else
+		echo "Usage: search query (in [directory])"
+		echo
+	fi
 else
-	echo "Usage: search query (in [directory])"
-	echo
+	if [ $# == 1 ]; then
+		mdfind $1
+	elif [ $# == 3 ] && [[ "$2" == "in" ]]; then
+		mdfind -onlyin $3 $1
+	else
+		echo "Usage: search query (in [directory])"
+		echo
+	fi
 fi
