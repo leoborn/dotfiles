@@ -1,0 +1,40 @@
+#!/bin/sh
+
+START=`date +%s`
+
+if [ $# == 0 ]; then
+    echo "Usage: cropPDF3rd [-option] file"
+    echo
+    echo "Options (no option defaults to cropping exactly the lower third):"
+    echo "    -X    Remove X vertical pixels less."
+    echo "    +X    Remove additional X vertical pixels."
+    exit 1
+fi
+
+removeJustThird=1
+if [ $# == 2 ]; then
+	removeJustThird=0
+	y="`pwd`/$2"
+else
+	y="`pwd`/$1"
+fi
+
+echo Will create a cropped PDF file for $y
+
+x=`basename "$y"`
+name=${x%.*}
+
+height=`pdfinfo $y | grep "Page size" | cut -d: -f2 | grep -o '[0-9][0-9][0-9]' | sed -n 2p`
+
+third=$(( $height / 3 ))
+
+if [  $removeJustThird == 0 ]; then
+	third=$[$third$1]
+fi
+
+pdfcrop --margins "0 0 0 -$third" $y ${name}_crop.pdf
+
+END=`date +%s`
+DUR=$(($END-$START))
+TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
+echo ; echo "### Cropping took $TIME ###" | lolcat -a
