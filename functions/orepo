@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Call from a local repo to open the repository on github/bitbucket in browser
+# from https://github.com/jfrazelle/dotfiles/blob/master/.functions
+
+# this one currently works with BitBucket, not tested for GitHub yet! 
+giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g' | sed 's/\/\/.*@//g')
+	
+#local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
+if [[ $giturl == "" ]]; then
+	echo "Not a git repository or no remote.origin.url is set."
+else
+	gitbranch=$(git rev-parse --abbrev-ref HEAD)
+	giturl="https:${giturl}"
+
+	if [[ $gitbranch != "master" ]]; then
+		if echo "${giturl}" | grep -i "bitbucket" > /dev/null ; then
+			local giturl="${giturl}/branch/${gitbranch}"
+		else
+			local giturl="${giturl}/tree/${gitbranch}"
+		fi
+	fi
+
+	echo Open $giturl
+	open $giturl
+fi
