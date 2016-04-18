@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# If you really need all the resources, search google encrypted as well
+# (Technically, no quotes are needed; all command-line arguments are passed as query.)
+if [ "$#" != 0 ]; then
+	term="$@"
+else
+	term=$1
+fi
+open "https://duckduckgo.com/?q=$term&t=osx"
+gterm=" $term"
+open "https://duckduckgo.com/?q=g!$gterm&t=osx"
