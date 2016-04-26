@@ -90,7 +90,7 @@ _nobatt_prompt() {
 }
 
 if [[ "$SHOW_BATTERY" == "TRUE" ]]; then
-	export PROMPT_COMMAND="history -a;history -c;history -r;_batt_prompt"
+	export PROMPT_COMMAND="update_terminal_cwd; history -a;history -c;history -r;_batt_prompt"
 else
-	export PROMPT_COMMAND="history -a;history -c;history -r;_nobatt_prompt"
+	export PROMPT_COMMAND="update_terminal_cwd; history -a;history -c;history -r;_nobatt_prompt"
 fi
