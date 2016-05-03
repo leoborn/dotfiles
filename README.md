@@ -1,12 +1,15 @@
 # README #
 
-These are my personal dotfile(s) and some (more or less) useful scripts I wrote. My bash .profile is optimized towards Mac OS X, but many of the aliases and functions work on Linux as well (with additional dependencies installed using a package installer of your choosing).
+These are my personal dotfiles and some (more or less) useful scripts I wrote. My .bash_profile is optimized towards Mac OS X, but many of the aliases and functions work on Linux as well (with additional dependencies installed using a package installer of your choosing). My .bash_prompt requires the two functions battery-charge.py and used-mem.py that can be found in /functions.
 
-### What is this repository for? ###
+### What is this repository for? What can you do with it? ###
 
-* just messin' around with dotfiles
-* easy command-line-based encryption and decryption of files and directories
+* Just messin' around with dotfiles
+* Easy command-line-based encryption and decryption of files and directories
 * OCR your PDFs with _tesseract_ and output either searchable PDFs (pdftopdf) or plain text (pdftotxt)
+* Quickly start a DuckDuckGo search from the command line (and additionally search encrypted Google if you need more results...)
+* Check the weather status from your command line!
+* Quickly open a git repository you're in in your browser
 * more coming...
 
 ### How do I get set up? ###
