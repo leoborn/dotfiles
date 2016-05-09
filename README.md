@@ -22,3 +22,12 @@ These are my personal dotfiles and some (more or less) useful scripts I wrote. M
 ### Who do I talk to? ###
 
 * Mumon
+
+
+## APPENDIX ##
+
+### What does it look like? ###
+
+My prompt looks something like this:
+
+![Bash prompt](bash_prompt.png)
