@@ -13,33 +13,44 @@ echo Will create an OCRed text file for $y
 
 newfile=$(echo "$y" | sed 's/ /_/g')
 
-mv "$y" "$newfile"
 
-name=`basename "$newfile" .pdf`
+if mv "$y" "$newfile"
+then
 
-mkdir "$name"
-cd "$name"
+    name=`basename "$newfile" .pdf`
 
-# splitting to individual pages
-convert -density 300 $newfile -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
+    mkdir "$name"
+    cd "$name"
 
-# process each page
-for f in $( ls *.tif ); do
-    # extract text
-    tesseract -l $lang $f ${f%.*}
-    rm $f
-done
+    # splitting to individual pages
+    convert -density 300 $newfile -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
 
-# combine all pages back to a single file
+    # process each page
+    for f in $( ls *.tif ); do
+        # extract text
+	tesseract -l $lang $f ${f%.*}
+	rm $f
+    done
 
-cat $(ls) > ../${name}_ocred.txt
+    # combine all pages back to a single file
 
-cd ..
-rm -rf $name
+    cat $(ls) > ../${name}_ocred.txt
 
-END=`date +%s`
-DUR=$(($END-$START))
-TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
-echo ; echo "### OCR took $TIME ###"
+    cd ..
+    rm -rf $name
 
-terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftotxt"
+    END=`date +%s`
+    DUR=$(($END-$START))
+    TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
+    echo ; echo "### OCR took $TIME ###"
+
+    terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftotxt"
+else
+    echo ""
+    echo "FAILED" | lolcat
+    echo ""
+    echo "While I can handle whitespaces in filenames, I am not able to handle whitespaces in directory names."
+    echo "It seems that some directory in the path to your file contains a whitespace. Please remedy this"
+    echo "(by for example putting your file in a path without whitespaces) and try again later."
+    echo "I am sorry for this inconvenience."
+fi

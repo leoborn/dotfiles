@@ -13,33 +13,42 @@ echo "Will create a searchable PDF for $y"
 
 newfile=$(echo "$y" | sed 's/ /_/g')
 
-mv "$y" "$newfile"
+if mv "$y" "$newfile"
+then
+    name=`basename "$newfile" .pdf`
 
-name=`basename "$newfile" .pdf`
+    mkdir "$name"
+    cd "$name"
 
-mkdir "$name"
-cd "$name"
+    # splitting to individual pages
+    convert -density 300 $newfile -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
 
-# splitting to individual pages
-convert -density 300 $newfile -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
+    # process each page
+    for f in $( ls *.tif ); do
+        # extract text
+	tesseract -l $lang $f ${f%.*} pdf
+	rm $f
+    done
 
-# process each page
-for f in $( ls *.tif ); do
-    # extract text
-    tesseract -l $lang $f ${f%.*} pdf
-    rm $f
-done
+    # combine all pages back to a single file
 
-# combine all pages back to a single file
+    pdftk *.pdf cat output ../${name}_searchable.pdf
 
-pdftk *.pdf cat output ../${name}_searchable.pdf
+    cd ..
+    rm -rf $name
 
-cd ..
-rm -rf $name
+    END=`date +%s`
+    DUR=$(($END-$START))
+    TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
+    echo ; echo "### OCR took $TIME ###"
 
-END=`date +%s`
-DUR=$(($END-$START))
-TIME=`printf "%02d:%02d:%02d" $(($DUR/3600)) $(($DUR/60%60)) $(($DUR%60))`
-echo ; echo "### OCR took $TIME ###"
-
-terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftopdf"
+    terminal-notifier -message "Finished OCR of $x; it took $TIME (hh:mm:ss)" -title "pdftopdf"
+else
+    echo ""
+    echo "FAILED" | lolcat
+    echo ""
+    echo "While I can handle whitespaces in filenames, I am not able to handle whitespaces in directory names."
+    echo "It seems that some directory in the path to your file contains a whitespace. Please remedy this"
+    echo "(by for example putting your file in a path without whitespaces) and try again later."
+    echo "I am sorry for this inconvenience."
+fi
