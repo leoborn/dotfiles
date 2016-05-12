@@ -19,12 +19,12 @@ else
 	y="`pwd`/$1"
 fi
 
-echo Will create a cropped PDF file for $y
+echo Will create a cropped PDF file for "$y"
 
 x=`basename "$y"`
-name=${x%.*}
+name="${x%.*}"
 
-height=`pdfinfo $y | grep "Page size" | cut -d: -f2 | grep -o '[0-9][0-9][0-9]' | sed -n 2p`
+height=`pdfinfo "$y" | grep "Page size" | cut -d: -f2 | grep -o '[0-9][0-9][0-9]' | sed -n 2p`
 
 third=$(( $height / 3 ))
 
@@ -32,7 +32,7 @@ if [  $removeJustThird == 0 ]; then
 	third=$[$third$1]
 fi
 
-pdfcrop --margins "0 0 0 -$third" $y ${name}_crop.pdf
+pdfcrop --margins "0 0 0 -$third" "$y" "${name}"_crop.pdf
 
 END=`date +%s`
 DUR=$(($END-$START))

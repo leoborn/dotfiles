@@ -6,19 +6,19 @@ if [ $# == 0 ]; then
 fi
 
 if [[ -f "$1" ]]; then
-	extension=`echo -n $1 | tail -c 5`
+	extension=`echo -n "$1" | tail -c 5`
 	if [[ "$extension" == ".enc" ]]
 	then
-	        echo Start decryption of file $1...
+	        echo Start decryption of file "$1"...
 		bn=`basename "$1" .enc`
-		openssl enc -d -a -aes-256-cbc -in $1 > $bn
-		rm $1
+		openssl enc -d -a -aes-256-cbc -in "$1" > "$bn"
+		rm "$1"
 		fKind="file as"
 		fName="$bn"
-		if [[ $bn =~ .*tar\.gz ]]; then
+		if [[ "$bn" =~ .*tar\.gz ]]; then
 			DIR_NAME=`basename "$bn" .tar.gz`
-			tar -zxf $bn
-			rm $bn
+			tar -zxf "$bn"
+			rm "$bn"
 			fKind="archive as the directory"
 			fName="$DIR_NAME"
 		fi

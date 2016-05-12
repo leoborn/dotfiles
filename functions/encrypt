@@ -37,22 +37,22 @@ else
 	fName=""
 	flag=""
 	if [ $# == 1 ] && [[ -f "$1" ]]; then
-		echo Start encryption of file $1...
-		fTemp=$1
-		fName=`basename $1`
+		echo Start encryption of file "$1"...
+		fTemp="$1"
+		fName=`basename "$1"`
 		fKind="file"
 		sleep 0.5
 		
 	elif [ $# == 1 ] && [[ -d "$1" ]]; then
-		echo Start encryption of directory $1
+		echo Start encryption of directory "$1"
 		echo "Directory will be archived as a tar.gz for encryption!"
-		DIR_NAME=`basename $1`
-		tar -zcf $DIR_NAME.tar.gz $1
+		DIR_NAME=`basename "$1"`
+		tar -zcf "$DIR_NAME".tar.gz "$1"
 		echo "Directory archived as $DIR_NAME.tar.gz!"
-		rm -rf $1
+		rm -rf "$1"
 		echo "Directory removed!"
-		fTemp=$DIR_NAME.tar.gz
-		fName=$DIR_NAME.tar.gz
+		fTemp="$DIR_NAME".tar.gz
+		fName="$DIR_NAME".tar.gz
 		fKind="archive"
 		sleep 0.5
 		
@@ -70,22 +70,22 @@ else
 		fi
 		
 		if [[ -f "$2" ]]; then
-			echo Start encryption of file $2...
-			fTemp=$2
-			fName=`basename $2`
+			echo Start encryption of file "$2"...
+			fTemp="$2"
+			fName=`basename "$2"`
 			fKind="file"
 			sleep 0.5
 			
 		elif [[ -d "$2" ]]; then
-			echo Start encryption of directory $2
+			echo Start encryption of directory "$2"
 			echo "Directory will be archived as a tar.gz for encryption!"
-			DIR_NAME=`basename $2`
-			tar -zcf $DIR_NAME.tar.gz $2
+			DIR_NAME=`basename "$2"`
+			tar -zcf "$DIR_NAME".tar.gz "$2"
 			echo "Directory archived as $DIR_NAME.tar.gz!"
-			rm -rf $2
+			rm -rf "$2"
 			echo "Directory removed!"
-			fTemp=$DIR_NAME.tar.gz
-			fName=$DIR_NAME.tar.gz
+			fTemp="$DIR_NAME".tar.gz
+			fName="$DIR_NAME".tar.gz
 			fKind="archive"
 			sleep 0.5
 			
@@ -123,11 +123,11 @@ else
 	if [[ "$flag" == "-a" ]]; then
 		randomPW=`openssl rand -base64 12`
 		echo "The random password for the $fKind is: $randomPW"
-		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc -k $randomPW
-		rm $fTemp
+		openssl enc -aes-256-cbc -salt -a -in "$fTemp" -out "$fName".enc -k $randomPW
+		rm "$fTemp"
 	elif [[ "$flag" == "-o" ]]; then
-		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc
-		rm $fTemp
+		openssl enc -aes-256-cbc -salt -a -in "$fTemp" -out "$fName".enc
+		rm "$fTemp"
 	else
 		generateRandomPWs
 		echo "You can choose one of the following nine random passwords:"
@@ -153,7 +153,7 @@ else
         	* ) echo $'\nPlease input one of the above passwords.';;
     		esac
 		done
-		openssl enc -aes-256-cbc -salt -a -in $fTemp -out $fName.enc -k $finalPW
+		openssl enc -aes-256-cbc -salt -a -in "$fTemp" -out "$fName".enc -k $finalPW
 		rm $fTemp
 	fi
 	echo
