@@ -9,16 +9,19 @@ fi
 
 lang=$1
 y="`pwd`/$2"
-echo Will create a searchable PDF for $y
+echo "Will create a searchable PDF for $y"
 
-x=`basename "$y"`
-name=${x%.*}
+newfile=$(echo "$y" | sed 's/ /_/g')
+
+mv "$y" "$newfile"
+
+name=`basename "$newfile" .pdf`
 
 mkdir "$name"
 cd "$name"
 
 # splitting to individual pages
-convert -density 300 $y -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
+convert -density 300 $newfile -type Grayscale -compress lzw -background white +matte -depth 8 out-%05d.tif
 
 # process each page
 for f in $( ls *.tif ); do
