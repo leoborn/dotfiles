@@ -4,7 +4,7 @@ These are my personal dotfiles and some (more or less) useful scripts I wrote. M
 
 ### What is this repository for? What can you do with it? ###
 
-* Get inspired by another bunch of dotfiles! \(^l^)/
+* Get inspired by another bunch of dotfiles! \\(^l^)/
 * Easy command-line-based encryption and decryption of files and directories (/functions/encrypt and /functions/decrypt)
 * OCR your PDFs with _tesseract_ and output either searchable PDFs (/functions/pdftopdf) or plain text (/functions/pdftotxt)
 * Quickly start a DuckDuckGo search from the command line (/functions/duck) and additionally search encrypted Google (/functions/goduck)
