@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Search function for GitHub
+if [ "$#" != 0 ]; then
+        term="$@"
+else
+        term=$1
+fi
+open "https://github.com/search?utf8=✓&q=$term"
