@@ -2,8 +2,10 @@
 
 # ATM only a simple wrapper around mdfind
 if [ $# == 0 ]; then
-	echo "Usage: search query (in [directory])"
+	echo "Usage: search [-option] query (in [directory])"
 	echo
+	echo "Options:"
+	echo "    -name    Only search within file- or directory names."
 	exit 1
 fi
 
@@ -19,8 +21,10 @@ if [[ "$name" == "TRUE" ]]; then
 	elif [ $# == 3 ] && [[ "$2" == "in" ]]; then
 		mdfind -onlyin $3 -name $1
 	else
-		echo "Usage: search query (in [directory])"
+		echo "Usage: search [-option] query (in [directory])"
 		echo
+		echo "Options:"
+		echo "    -name    Only search within file- or directory names."
 	fi
 else
 	if [ $# == 1 ]; then
@@ -28,7 +32,9 @@ else
 	elif [ $# == 3 ] && [[ "$2" == "in" ]]; then
 		mdfind -onlyin $3 $1
 	else
-		echo "Usage: search query (in [directory])"
+		echo "Usage: search [-option] query (in [directory])"
 		echo
+		echo "Options:"
+		echo "    -name    Only search within file- or directory names."
 	fi
 fi

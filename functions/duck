@@ -3,9 +3,13 @@
 # Search function for DuckDuckGo
 # Use single quotes for "!", e.g. duck 'g! <term>'
 # (Technically, no quotes are needed; all command-line arguments are passed as query.)
-if [ "$#" != 0 ]; then
-	term="$@"
+if [ $# == 0 ]; then
+    echo "Usage: duck query"
 else
+    if [ $# != 1 ]; then
+	term="$@"
+    else
 	term=$1
+    fi
+    open "https://duckduckgo.com/?q=$term&t=osx"
 fi
-open "https://duckduckgo.com/?q=$term&t=osx"

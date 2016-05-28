@@ -1,9 +1,13 @@
 #!/bin/sh
 
 # Search function for GitHub
-if [ "$#" != 0 ]; then
-        term="$@"
+if [ $# == 0 ]; then
+    echo "Usage: gsearch query"
 else
+    if [ $# != 1 ]; then
+        term="$@"
+    else
         term=$1
+    fi
+    open "https://github.com/search?utf8=✓&q=$term"
 fi
-open "https://github.com/search?utf8=✓&q=$term"
