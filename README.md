@@ -1,6 +1,6 @@
 # README #
 
-These are my personal dotfiles and some (more or less) useful scripts I wrote. My .bash_profile and .bash_aliases are optimized towards Mac OS X, but many of the aliases and functions work on Linux as well (with additional dependencies installed using a package installer of your choosing). My .bash_prompt requires the two functions battery-charge.py and used-mem.py that can be found in /functions.
+These are my personal dotfiles and some (more or less) useful scripts I wrote. My .bash_profile and .bash_aliases are optimized towards Mac OS X, but many of the aliases and functions work on Linux as well (with additional dependencies installed using a package manager of your choosing). My .bash_prompt requires the two functions battery-charge.py and used-mem.py that can be found in /functions.
 
 ### What is this repository for? What can you do with it? ###
 
