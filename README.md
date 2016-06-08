@@ -10,7 +10,7 @@ These are my personal dotfiles and some (more or less) useful scripts I wrote. M
 * Quickly start a DuckDuckGo search from the command line (/functions/duck) and additionally search encrypted Google (/functions/goduck)
 * Check the weather status from your command line! (/functions/wth)
 * Quickly open a git repository you're in in your browser (/functions/orepo)
-* more coming...
+* More coming...
 
 ### How do I get set up? ###
 
