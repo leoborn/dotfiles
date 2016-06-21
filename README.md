@@ -9,7 +9,7 @@ These are my personal dotfiles and some (more or less) useful scripts I wrote. M
 * OCR your PDFs with _tesseract_ and output either searchable PDFs (/functions/pdftopdf) or plain text (/functions/pdftotxt)
 * Quickly start a DuckDuckGo search from the command line (/functions/duck) and additionally search encrypted Google (/functions/goduck)
 * Check the weather status from your command line! (/functions/wth)
-* Quickly open a git repository you're in in your browser (/functions/orepo)
+* Quickly open the git repository you're in in your browser (/functions/orepo)
 * More coming...
 
 ### How do I get set up? ###
