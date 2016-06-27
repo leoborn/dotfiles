@@ -3,7 +3,8 @@
 # Call from a local repo to open the repository on github/bitbucket in browser
 # from https://github.com/jfrazelle/dotfiles/blob/master/.functions
 
-# this one currently works with BitBucket, not tested for GitHub yet! 
+# Gives precedence to GitHub?
+# TODO: include a switch for BitBucket/GitHub
 giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g' | sed 's/\/\/.*@//g')
 	
 #local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
@@ -15,9 +16,9 @@ else
 
 	if [[ $gitbranch != "master" ]]; then
 		if echo "${giturl}" | grep -i "bitbucket" > /dev/null ; then
-			local giturl="${giturl}/branch/${gitbranch}"
+			giturl="${giturl}/branch/${gitbranch}"
 		else
-			local giturl="${giturl}/tree/${gitbranch}"
+			giturl="${giturl}/tree/${gitbranch}"
 		fi
 	fi
 
