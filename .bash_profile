@@ -1,17 +1,6 @@
 # functions declared as 'function' take an argument,
 # the others do not and just do things more complicated than a one-liner.
 
-
-# When I'm home (i.e. connected to my home network), I do not need the battery prompt
-# --> default to FALSE
-# (I didn't choose "if AC Power == yes" because even if I am recharging in a cafe or so
-# I still want to be able to check my battery status "on the go")
-WIFI_NAME=`networksetup -getairportnetwork en1 | cut -d':' -f2`
-if [[ "$WIFI_NAME" == " <INSERT_YOUR_HOME_NETWORK>" ]]; then
-	export SHOW_BATTERY="FALSE"
-else
-	export SHOW_BATTERY="TRUE"
-fi
 source ~/.bash_prompt
 source ~/.bash_aliases
 . `brew --prefix`/etc/profile.d/z.sh
