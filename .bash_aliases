@@ -103,6 +103,9 @@ alias minfo="osascript -e 'tell application \"iTunes\" to set atrack to artist o
 alias big="osascript -e 'repeat 10 times' -e 'tell application \"Terminal\" to tell application \"System Events\" to keystroke \"+\" using command down' -e 'end repeat'"
 alias small="osascript -e 'repeat 10 times' -e 'tell application \"Terminal\" to tell application \"System Events\" to keystroke \"-\" using command down' -e 'end repeat'"
 
+alias day="osascript -e 'tell application \"Terminal\" to set background color of first window to {10240, 10240, 10240, -10240}'"
+alias night="osascript -e 'tell application \"Terminal\" to set background color of first window to {1024, 1024, 1024, -10240}'"
+
 alias sniff='cd /usr/local/bin; sudo python net-creds.py; cd - > /dev/null'
 
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
