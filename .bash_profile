@@ -82,7 +82,7 @@ function ismounted() {
 }
 
 # Invokes an 'oblivious' sudo, i.e. password doesn't get cached
-function ksudo() { sudo "$@"; sudo -K; }
+function osudo() { sudo "$@"; sudo -K; }
 
 # Create a new directory and enter it
 function mkd() { mkdir -p "$@" && cd "$_"; }
