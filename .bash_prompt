@@ -71,7 +71,8 @@ _batt_prompt() {
 	_battery_charge() {
 		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
 	}
-	PS1R="$(_battery_charge)"
+	batterypercentage=$(echo $(pmset -g batt | tail -n 1 | cut -d' ' -f3 | cut -d';' -f1))
+     	PS1R="($batterypercentage)$(_battery_charge)"
 	
 	PS1L="\[\033[96m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
