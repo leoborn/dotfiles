@@ -79,7 +79,7 @@ alias wifi_scan='/System/Library/PrivateFrameworks/Apple80211.framework/Versions
 alias getexternalip='curl ipecho.net/plain ; echo'
 alias getlocalip='ipconfig getifaddr en1'
 
-alias traffic='sudo iftop -P'
+alias traffic='sudo iftop -P' #optionally specify interface using "-i"
 
 # Activates screensaver
 alias afk='open /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
