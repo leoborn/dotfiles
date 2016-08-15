@@ -89,6 +89,11 @@ alias calsync='vdirsyncer sync'
 
 alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
+
+# Start your VM (need to insert name and adapt the alias) in fullscreen!
+alias debian='VirtualBox --startvm "VM_NAME" --fullscreen'
+
+
 ## MISC.
 
 # A bunch of iTunes control aliases
