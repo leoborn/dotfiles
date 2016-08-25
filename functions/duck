@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Search function for DuckDuckGo
-# Use single quotes for "!", e.g. duck 'g! <term>'
-# (Technically, no quotes are needed; all command-line arguments are passed as query.)
+# All command-line arguments are passed as search query.
+
 if [ $# == 0 ]; then
     echo "Usage: duck query"
 else
