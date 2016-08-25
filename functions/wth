@@ -8,6 +8,8 @@ usage() {
     echo "Options (no option defaults to -c):"
     echo "	-c, --current		Output only current weather for the given city."
     echo "	-t, --today		Output only today's weather for the given city."
+    echo "      -1, --one-day           Output only today's weather for the given city."
+    echo "      -2, --two-days          Output weather forecast two days (incl. today) for the given city."
     echo "	-3, --three-days	Output weather forecast three days (incl. today) for the given city."
 }
 	
@@ -21,9 +23,13 @@ elif [ $# > 1 ] && ( [[ "$1" == "-c" ]] || [[ "$1" == "--current" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
     curl -s http://wttr.in/$CITY | head -7
     echo
-elif [ $# > 1 ] && ( [[ "$1" == "-t" ]] || [[ "$1" == "--today" ]] ); then
+elif [ $# > 1 ] && ( [[ "$1" == "-t" ]] || [[ "$1" == "--today" ]] || [[ "$1" == "-1" ]] || [[ "$1" == "--one-day" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
     curl -s http://wttr.in/$CITY | head -17
+    echo
+elif [ $# > 1 ] && ( [[ "$1" == "-2" ]] || [[ "$1" == "--two-days" ]] ); then
+    CITY=$(echo "${@:2}" | sed 's/ /%20/g')
+    curl -s http://wttr.in/$CITY | head -27
     echo
 elif [ $# > 1 ] && ( [[ "$1" == "-3" ]] || [[ "$1" == "--three-days" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
