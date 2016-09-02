@@ -26,36 +26,6 @@ git_info() {
     #echo -e "${1}${branchName}"
 }
 
-# adapted from https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
-git_prompt() {
-	# Check if the current directory is in a Git repository.
-	git rev-parse --is-inside-work-tree &>/dev/null || return
-	
-	local s=''
-	local branchName=''
-		
-	# check if the current directory is in .git before running git checks
-	if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-
-		# Ensure the index is up to date.
-		git update-index --really-refresh -q &>/dev/null
-
-		# Check for uncommitted changes in the index.
-		if ! $(git diff --quiet --ignore-submodules --cached); then
-			s+='+'
-		fi
-
-		# Check for unstaged changes.
-		if ! $(git diff-files --quiet --ignore-submodules --); then
-			s+='!'
-		fi
-	fi
-	
-	branchName=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
-		
-	echo -e "${1}${branchName}${2}${s}"
-}
-
 violet="\e[1;35m"
 white="\e[1;37m"
 resetC="\e[0m"
@@ -76,8 +46,7 @@ _batt_prompt() {
 	
 	PS1L="\[\033[96m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
-	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
-	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
+	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"
 	PS1LFINAL="\[\033[31;1m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
 	
 	compensate=32
@@ -88,8 +57,7 @@ _batt_prompt() {
 _nobatt_prompt() {	
 	PS1L="\[\033[96m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
-	#PS1+="\$(git_prompt \" on \[${violet}\]\" \"\[${white}\]\")"
-	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"	## Not as informative, but faster
+	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"
 	PS1LFINAL="\[\033[31;1m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
 	PS1="$PS1LFINAL"
 	PS1+="\n\$ "
