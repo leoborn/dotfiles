@@ -166,7 +166,7 @@ wifi_password() {
 }
 
 # Show some info on the system
-sysinf() {
+function sysinf() {
 	screenfetch
 	wifistatus=`ifconfig en1 | grep status | cut -d' ' -f2`
 	if [[ "$wifistatus" == "active" ]]
@@ -184,6 +184,11 @@ sysinf() {
 	echo
 	echo "Battery status (detailed):" | lolcat
 	pmset -g batt | cut -d'p' -f1
+
+	if [ $# == 1 ] && ( [[ "$1" == "-a" ]] || [[ "$1" == "--all" ]] ); then
+		echo
+		istats | head -n 15
+	fi
 }
 
 # Function to change bash prompt; acts as a 'switch' for the battery display
