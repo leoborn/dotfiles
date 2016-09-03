@@ -256,21 +256,6 @@ function tomp3(){
 	fi
 }
 
-PREFIX=/usr/local
-#If your system has lib64 directories, lib64 should be used AND NOT lib
-if [ -d /lib64 ]; then
-  LIBDIR=$PREFIX/lib64
-else
-  LIBDIR=$PREFIX/lib
-fi
-#If you're installing to a non-standard path, tell programs where to find things:
-export PATH=$PREFIX/bin${PATH:+:$PATH}
-export LD_LIBRARY_PATH=$LIBDIR${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-export LIBRARY_PATH=$LIBDIR${LIBRARY_PATH:+:$LIBRARY_PATH}
-export CPATH=$PREFIX/include${CPATH:+:$CPATH}
-
-export BOOST_ROOT=$PREFIX
-
 export JAVA_HOME=$(/usr/libexec/java_home)
 export M2_HOME=/opt/apache-maven-3.3.3
 export PATH=$PATH:$M2_HOME/bin
