@@ -41,7 +41,6 @@ alias md5sum='md5'
 
 # open-related
 alias o='open'
-alias bro='open -a "Brackets"'
 alias twopen='open -a "TextWrangler"'
 alias xopen='open -a "XCode"'
 alias veracrypt='open -a "VeraCrypt"'
@@ -109,8 +108,6 @@ alias minfo="osascript -e 'tell application \"iTunes\" to set atrack to artist o
 
 alias big="osascript -e 'repeat 10 times' -e 'tell application \"Terminal\" to tell application \"System Events\" to keystroke \"+\" using command down' -e 'end repeat'"
 alias small="osascript -e 'repeat 10 times' -e 'tell application \"Terminal\" to tell application \"System Events\" to keystroke \"-\" using command down' -e 'end repeat'"
-
-alias sniff='cd /usr/local/bin; sudo python net-creds.py; cd - > /dev/null'
 
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
