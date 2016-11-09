@@ -37,7 +37,6 @@ alias gch='git checkout'
 alias sudo='sudo '
 
 alias sha256sum='shasum -a 256'
-alias md5sum='md5'
 
 # open-related
 alias o='open'
