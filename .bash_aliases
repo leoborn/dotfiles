@@ -82,7 +82,8 @@ alias traffic='sudo iftop -P' #optionally specify interface using "-i"
 # Activates screensaver
 alias afk='open /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
 
-alias c='khal agenda'
+alias c='khal'
+alias ic='ikhal'
 alias calsync='vdirsyncer sync'
 
 alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
