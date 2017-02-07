@@ -1,0 +1,61 @@
+# Use auto-indentation
+set autoindent
+
+# Use cut to end of line with ^K by default
+set cut
+
+# Enable ~/.nano_history for saving and reading search/replace strings.
+# set historylog
+
+# Don't convert files from DOS/Mac format
+set noconvert
+
+# Don't follow symlinks when writing files
+# set nofollow
+
+# Don't display the help lists at the bottom of the screen
+# set nohelp
+
+# Don't wrap text at all
+set nowrap
+
+# Use smooth scrolling as the default
+set smooth
+
+# Use this spelling checker instead of the internal one.  This option
+# does not properly have a default value.
+set speller "aspell -c"
+
+# Allow nano to be suspended with ^Z
+# set suspend
+
+# Use this tab size instead of the default; it must be greater than 0
+# set tabsize 8
+
+# Save automatically on exit, don't prompt
+# set tempfile
+
+# Enable ~/.nano_history for saving and reading search/replace strings.
+# set historylog
+
+# Disallow file modification, why would you want this in an rc file? ;)
+# set view
+
+# Display line and character information in the status box
+set const
+
+include /opt/homebrew/share/nano/sh.nanorc
+include /opt/homebrew/share/nano/python.nanorc
+include /opt/homebrew/share/nano/c.nanorc
+include /opt/homebrew/share/nano/tex.nanorc
+include /opt/homebrew/share/nano/texinfo.nanorc
+include /opt/homebrew/share/nano/xml.nanorc
+include /opt/homebrew/share/nano/java.nanorc
+include /opt/homebrew/share/nano/javascript.nanorc
+include /opt/homebrew/share/nano/json.nanorc
+include /opt/homebrew/share/nano/html.nanorc
+include /opt/homebrew/share/nano/default.nanorc
+include /opt/homebrew/share/nano/css.nanorc
+include /opt/homebrew/share/nano/nanorc.nanorc
+include /opt/homebrew/share/nano/perl.nanorc
+include /opt/homebrew/share/nano/php.nanorc
