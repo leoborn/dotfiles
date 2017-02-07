@@ -10,7 +10,7 @@ source ~/.bash_aliases
 export EDITOR=emacs
 
 export "LESSOPEN=|emacs --batch -l /opt/e2ansi/e2ansi-silent -l ~/.emacs.d/.emacs -l /opt/e2ansi/bin/e2ansi-cat %s"
-export "LESS=-R -N"
+export "LESS=-R"
 export "MORE=-R"
 
 #alias hless='LESSOPEN="|emacs --batch -l /opt/e2ansi/e2ansi-silent -l ~/.emacs.d/.emacs -l /opt/e2ansi/bin/e2ansi-cat %s" less'
