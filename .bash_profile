@@ -7,7 +7,7 @@ source ~/.bash_aliases
 
 # Set default editor
 # Especially nice when opening it from less by typing 'v'
-export EDITOR=emacs
+export EDITOR=nano
 
 export "LESSOPEN=|emacs --batch -l /opt/e2ansi/e2ansi-silent -l ~/.emacs.d/.emacs -l /opt/e2ansi/bin/e2ansi-cat %s"
 export "LESS=-R"
