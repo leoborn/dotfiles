@@ -1,14 +1,3 @@
-# When I'm home (i.e. connected to my home network), I do not need the battery prompt
-# --> default to FALSE
-# (I didn't choose "if AC Power == yes" because even if I am recharging in a cafe or so
-# I still want to be able to check my battery status "on the go")
-WIFI_NAME=`networksetup -getairportnetwork en1 | cut -d':' -f2`
-if [[ "$WIFI_NAME" == " <YOUR_NETWORK_NAME>" ]]; then
-   export SHOW_BATTERY="FALSE"
-else
-	export SHOW_BATTERY="TRUE"
-fi
-
 # adapted from https://github.com/s10wen/dotfiles/blob/master/.bash_prompt
 git_info() {
     # check if we're in a git repo
@@ -22,7 +11,7 @@ git_info() {
 
     branchNameAndStatus="$branchName$dirty"
     echo -e "${1}${branchNameAndStatus}"
-            
+
     #echo -e "${1}${branchName}"
 }
 
@@ -42,20 +31,22 @@ _batt_prompt() {
 		echo `/usr/local/bin/battery-charge.py` 2>/dev/null
 	}
 	batterypercentage=$(echo $(pmset -g batt | tail -n 1 | cut -d' ' -f3 | cut -d')' -f2 | cut -d';' -f1))
-     	PS1R="($batterypercentage)$(_battery_charge)"
-	
-	PS1L="\[\033[96m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
+	PS1R="($batterypercentage)$(_battery_charge)"
+
+	#PS1L="\[\033[96m\]mumon\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
+	PS1L="\[\033[96m\]mumon\[\033[m\]@\[\033[32m\]$(hostname)\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"
 	PS1LFINAL="\[\033[31;1m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
-	
+
 	compensate=32
 	PS1=$(printf "%*s\r%s" "$(($(tput cols)+${compensate}))" "$PS1R" "$PS1LFINAL")
 	PS1+="\n\$ "
 }
 
-_nobatt_prompt() {	
-	PS1L="\[\033[96m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
+_nobatt_prompt() {
+	#PS1L="\[\033[96m\]mumon\[\033[m\]@\[\033[32m\]\h\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
+	PS1L="\[\033[96m\]mumon\[\033[m\]@\[\033[32m\]$(hostname)\[\033[0m\]($(date -j +'%H:%M'), $(python /usr/local/bin/used-mem.py))"
 	PS1L+=":\[\033[33;1m\]\w\[\033[m\]"
 	PS1L+="\$(git_info \" on \[${violet}\]\")\[${resetC}\]"
 	PS1LFINAL="\[\033[31;1m\][$(todo.sh | wc -l | sed -e's/ *//' | xargs -I{} expr {} - 2)]\[${resetC}\]$PS1L"
@@ -63,6 +54,7 @@ _nobatt_prompt() {
 	PS1+="\n\$ "
 }
 
+#if [[ "$SHOW_BATTERY" == "TRUE" ]] || [[ "$WIFI_NAME" != " o2-WLAN01" ]]; then
 if [[ "$SHOW_BATTERY" == "TRUE" ]]; then
 	export PROMPT_COMMAND="update_terminal_cwd; history -a;history -c;history -r;_batt_prompt"
 else
