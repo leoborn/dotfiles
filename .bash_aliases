@@ -66,7 +66,9 @@ alias lsl='ls -lFG'
 alias lsd='ls -alt'
 alias countfiles='ls -1 . | wc -l'
 
-alias update='echo Updating Homebrew... | lolcat -a; brew update; brew upgrade; echo ; echo Updating MacPorts... | lolcat -a; sudo port selfupdate; port outdated; sudo port upgrade outdated'
+#alias update='echo Updating Homebrew... | lolcat -a; brew update; brew upgrade; echo ; echo Updating MacPorts... | lolcat -a; sudo port selfupdate; port outdated; sudo port upgrade outdated'
+alias update='echo Updating Homebrew... | lolcat -a; brew update; echo ; echo Updating MacPorts... | lolcat -a; sudo port selfupdate; port outdated'
+alias upgrade='echo Upgrading Homebrew... | lolcat -a; brew upgrade; echo ; echo Upgrading MacPorts... | lolcat -a; sudo port upgrade outdated'
 
 alias wifi_activate='networksetup -setairportpower en1 on'
 
