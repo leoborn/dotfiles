@@ -257,7 +257,6 @@ function tomp3(){
 }
 
 export JAVA_HOME=$(/usr/libexec/java_home)
-export M2_HOME=/opt/apache-maven-3.3.3
 export PATH=$PATH:$M2_HOME/bin
 export SCALA_HOME=/usr/local/share/scala-2.11.7
 export PATH=$PATH:$SCALA_HOME/bin
