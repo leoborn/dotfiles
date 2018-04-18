@@ -54,8 +54,8 @@ alias finder='open .'
 
 alias diskreport='df -P -kHl'
 
-alias ctop='htop -s PERCENT_CPU -d 10'
-alias rtop='htop -s PERCENT_MEM -d 10'
+alias ctop='htop PERCENT_CPU -d 10'
+alias rtop='htop PERCENT_MEM -d 10'
 alias cwd='pwd | tr -d "\r\n" | pbcopy | echo "==> \"`pwd`\" copied to clipboard"'
 alias rrm='rm -rf'
 alias cpv='rsync -WavP --human-readable --progress'
