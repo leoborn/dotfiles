@@ -17,27 +17,27 @@ if [ $# == 0 ]; then
     usage
 elif [ $# == 1 ]; then
     CITY=$(echo "$1" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -7
+    curl -s https://wttr.in/$CITY | head -7
     echo
 elif [ $# > 1 ] && ( [[ "$1" == "-c" ]] || [[ "$1" == "--current" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -7
+    curl -s https://wttr.in/$CITY | head -7
     echo
 elif [ $# > 1 ] && ( [[ "$1" == "-t" ]] || [[ "$1" == "--today" ]] || [[ "$1" == "-1" ]] || [[ "$1" == "--one-day" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -17
+    curl -s https://wttr.in/$CITY | head -17
     echo
 elif [ $# > 1 ] && ( [[ "$1" == "-2" ]] || [[ "$1" == "--two-days" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -27
+    curl -s https://wttr.in/$CITY | head -27
     echo
 elif [ $# > 1 ] && ( [[ "$1" == "-3" ]] || [[ "$1" == "--three-days" ]] ); then
     CITY=$(echo "${@:2}" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -37
+    curl -s https://wttr.in/$CITY | head -37
     echo
 elif [ $# > 1 ];then
     CITY=$(echo "$@" | sed 's/ /%20/g')
-    curl -s http://wttr.in/$CITY | head -7
+    curl -s https://wttr.in/$CITY | head -7
     echo
 else
     usage
